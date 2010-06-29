@@ -4,7 +4,7 @@ import groovyx.gpars.actor.AbstractPooledActor
 
 enum Move { ROCK, PAPER, SCISSORS }
 
-@Grab(group='org.codehaus.gpars', module='gpars', version='0.9')
+@Grab(group='org.codehaus.gpars', module='gpars', version='0.10')
 class Player extends AbstractPooledActor {
   String name
   def random = new Random()

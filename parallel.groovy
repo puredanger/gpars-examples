@@ -1,9 +1,7 @@
 import groovy.time.TimeCategory
-import groovyx.gpars.Parallelizer
-import groovyx.gpars.ParallelArrayUtil
-import static groovyx.gpars.Parallelizer.*
+import groovyx.gpars.GParsPool
 
-@Grab(group='org.codehaus.gpars', module='gpars', version='0.9')
+@Grab(group='org.codehaus.gpars', module='gpars', version='0.10')
 class Order {
 	def Date dueDate	
 	def Integer daysOverdue() {
@@ -31,8 +29,8 @@ def createOrders() {
 def isLate = { order -> order.dueDate > new Date() }
 def daysOverdue = { order -> order.daysOverdue() }
 
-doParallel {
-	def data = ParallelArrayUtil.getParallel(createOrders()).filter(isLate).map(daysOverdue)
+GParsPool.withPool {
+	def data = createOrders().parallel.filter(isLate).map(daysOverdue)
 
 	println("# overdue = " + data.size())
 	println("avg overdue by = " + (data.sum() / data.size()))

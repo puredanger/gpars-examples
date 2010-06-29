@@ -1,7 +1,7 @@
-import groovyx.gpars.actor.Safe
+import groovyx.gpars.agent.Agent
 
-@Grab(group='org.codehaus.gpars', module='gpars', version='0.9')
-def stuff = new Safe<List>([])
+@Grab(group='org.codehaus.gpars', module='gpars', version='0.10')
+def stuff = new Agent<List>([])
 
 // thread 1
 stuff.send( {it.add("pizza")} )

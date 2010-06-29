@@ -1,9 +1,9 @@
 import twitter4j.Twitter
 import twitter4j.Query
-import groovyx.gpars.Asynchronizer
+import groovyx.gpars.GParsExecutorsPool
 
 @Grab(group='net.homeip.yusuke', module='twitter4j', version='2.0.10')
-@Grab(group='org.codehaus.gpars', module='gpars', version='0.9')
+@Grab(group='org.codehaus.gpars', module='gpars', version='0.10')
 def recentTweets(api, query) {
   tweets = api.search(new Query(query)).tweets
   (1..3).each { i ->
@@ -14,7 +14,7 @@ def recentTweets(api, query) {
 def api = new Twitter()
 def trends = api.weeklyTrends[0].trends[0..4]
 
-Asynchronizer.doParallel {
+GParsExecutorsPool.withPool {
   def retrieveTweets = { query -> recentTweets(api, query) }
 
   trends.each {
